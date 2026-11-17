@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra realizada</title>
+
+    <link rel="stylesheet" href="estilos/estilos.css">
+</head>
+<body>
+
+    <header>
+        <h1>TechNova Solutions</h1>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>✅ Gracias por tu compra</h2>
+
+            <p>
+                Hemos recibido tu pedido correctamente.
+            </p>
+
+            <p>
+                En breve nos pondremos en contacto contigo para
+                confirmar los detalles del servicio contratado.
+            </p>
+
+            <br>
+
+            <a class="btn" href="index.html">
+                Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        /* Vaciar carrito después de finalizar la compra */
+
+        localStorage.removeItem("carrito");
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producto</title>
+
+    <link rel="stylesheet" href="estilos/estilos.css">
+</head>
+<body>
+
+    <header>
+
+        <h1>TechNova Solutions</h1>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="tienda.html">Tienda</a>
+            <a href="carrito.html">Carrito</a>
+        </nav>
+
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+
+            <img id="imagen" src="" alt="" width="400">
+
+            <h2 id="nombre"></h2>
+
+            <p id="descripcion"></p>
+
+            <h3 id="precio"></h3>
+
+            <p id="stock"></p>
+
+            <button class="btn" onclick="agregarCarrito()">
+                Añadir al carrito
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        const supabaseUrl =
+            "https://efehdsvuzadthazakxml.supabase.co";
+
+        const supabaseKey =
+            "sb_publishable_fLdyzW7ZDOMrlr2V6juLBA_ff73sUAt";
+
+        const supabaseClient =
+            supabase.createClient(
+                supabaseUrl,
+                supabaseKey
+            );
+
+        let productoActual = null;
+
+        async function cargarProducto() {
+
+            const params =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+            const id = params.get("id");
+
+            const { data, error } =
+                await supabaseClient
+                    .from("productos")
+                    .select("*")
+                    .eq("id", id)
+                    .single();
+
+            if (error) {
+
+                console.error(error);
+
+                return;
+
+            }
+
+            productoActual = data;
+
+            document.getElementById("imagen").src =
+                data.imagen;
+
+            document.getElementById("imagen").alt =
+                data.nombre;
+
+            document.getElementById("nombre").textContent =
+                data.nombre;
+
+            document.getElementById("descripcion").textContent =
+                data.descripcion;
+
+            document.getElementById("precio").textContent =
+                data.precio + " €";
+
+            document.getElementById("stock").textContent =
+                "Stock disponible: " + data.stock;
+
+        }
+
+        function agregarCarrito() {
+
+            let carrito =
+                JSON.parse(
+                    localStorage.getItem("carrito")
+                ) || [];
+
+            carrito.push({
+                id: productoActual.id,
+                nombre: productoActual.nombre,
+                precio: productoActual.precio
+            });
+
+            localStorage.setItem(
+                "carrito",
+                JSON.stringify(carrito)
+            );
+
+            alert("Producto añadido al carrito");
+
+        }
+
+        cargarProducto();
+
+    </script>
+
+</body>
+</html>
